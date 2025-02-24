@@ -3,8 +3,6 @@ module Payola
     isolate_namespace Payola
     engine_name 'payola'
 
-    config.autoload_paths += %W(#{config.root}/app/services)
-
     config.generators do |g|
       g.test_framework :rspec, fixture: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
@@ -31,6 +29,11 @@ module Payola
     end
 
     initializer :configure_subscription_listeners do |app|
+      require_dependency 'payola/invoice_paid'
+      require_dependency 'payola/invoice_failed'
+      require_dependency 'payola/sync_subscription'
+      require_dependency 'payola/subscription_deleted'
+      
       Payola.configure do |config|
         config.subscribe 'invoice.payment_succeeded',     Payola::InvoicePaid
         config.subscribe 'invoice.payment_failed',        Payola::InvoiceFailed
