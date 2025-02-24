@@ -19,6 +19,9 @@ module Payola
     end
 
     initializer :inject_helpers do |app|
+      require_dependency 'payola/price_helper'
+      require_dependency 'payola/application_helper'
+      
       ActiveSupport.on_load :action_controller do
         ::ActionController::Base.send(:helper, Payola::PriceHelper)
       end
