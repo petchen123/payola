@@ -46,7 +46,8 @@ module Payola
       return publishable_key_retriever.call(sale).to_s
     end
 
-    def subscribe(name, callable = Proc.new)
+    def subscribe(name, callable = nil)
+      callable ||= Proc.new { |event| puts "Default action for #{event}" }
       StripeEvent.subscribe(name, callable)
     end
 
