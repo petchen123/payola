@@ -29,6 +29,7 @@ module Payola
     end
 
     initializer :configure_subscription_listeners do |app|
+      require_dependency 'payola/invoice_behavior'
       require_dependency 'payola/invoice_paid'
       require_dependency 'payola/invoice_failed'
       require_dependency 'payola/sync_subscription'
